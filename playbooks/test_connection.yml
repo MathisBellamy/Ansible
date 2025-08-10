@@ -1,0 +1,8 @@
+---
+
+- name: "Playbook to test connection to hosts"
+  hosts: all
+  tasks:
+    - name: "Ping"
+      ansible.builtin.ping:
+
