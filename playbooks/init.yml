@@ -1,0 +1,6 @@
+---
+
+- name: "Init the VM"
+  hosts: all
+  roles:
+    - roles/users

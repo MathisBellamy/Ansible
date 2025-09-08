@@ -1,0 +1,24 @@
+---
+
+- name: "USERS - Create groups"
+  ansible.builtin.group:
+    name: "{{ item['name'] }}"
+    state: 'present'
+  loop: "{{ _users_groups_list }}"
+
+- name: "USERS - Create groups sudoers file"
+  ansible.builtin.template:
+    src: 'etc/sudoers.d/sudoers.j2'
+    dest: "/etc/sudoers.d/{{ item['name'] }}"
+    owner: root
+    group: root
+    mode: "0o440"
+  loop: "{{ _users_groups_list }}"
+
+- name: "USERS - Create users"
+  ansible.builtin.user:
+    name: "{{ item['name'] }}"
+    password: "{{ item['password'] | password_hash('sha512') }}"
+    groups: "{{ item['groups'] | join(',') }}"
+    shell: "/bin/bash"
+  loop: "{{ _users_users_list }}"

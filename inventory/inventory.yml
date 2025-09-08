@@ -1,7 +1,10 @@
 ---
 
-deb:
+debian:
   children:
+    deb13:
+      hosts:
+        10.0.3.152:
     deb12:
       hosts:
         192.168.145.101:

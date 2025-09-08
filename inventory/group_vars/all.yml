@@ -1,0 +1,12 @@
+---
+
+users_groups_list:
+  - name: "server-admins"
+    rights:
+      - (ALL:ALL) ALL
+
+users_users_list:
+  - name: "mbellamy"
+    password: "test"
+    groups:
+      - server-admins

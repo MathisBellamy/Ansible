@@ -1,0 +1,9 @@
+##############################################
+# THIS FILE IS MANAGED WITH ANSIBLE
+# ANY MANUAL MODIFICATION COULD BE OVERWRITTEN
+##############################################
+
+# Group privilege specification
+{% for right in item['rights'] %}
+%{{ item['name'] }} {{ ansible_hostname }}={{ right }}
+{% endfor %}
