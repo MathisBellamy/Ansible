@@ -1,0 +1,4 @@
+---
+
+_users_groups_list: "{{ users_group_list | default([]) }}"
+_users_users_list: "{{ users_users_list | default([]) }}"

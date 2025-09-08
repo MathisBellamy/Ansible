@@ -1,0 +1,12 @@
+---
+
+galaxy_info:
+  author: Mathis
+  role_name: users
+  namespace: mbellamy
+  description: Create new users
+  company: none
+  license: MLP2
+  galaxy_tags:
+    - users
+dependencies: []
