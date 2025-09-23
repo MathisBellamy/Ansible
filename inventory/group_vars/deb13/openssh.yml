@@ -1,0 +1,9 @@
+---
+
+openssh_sftp_server: "/usr/lib/openssh/sftp-server"
+
+openssh_pub_key_authentication: "yes"
+openssh_password_authentication: "no"
+
+openssh_allow_groups:
+  - server-admins

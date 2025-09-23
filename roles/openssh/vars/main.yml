@@ -1,0 +1,5 @@
+---
+
+_openssh_packages: "{{ openssh_packages | default([]) + ['openssh-server'] }}"
+
+_openssh_sftp_server: "{{ openssh_sftp_server | default('/usr/libexec/openssh/sftp-server') }}"

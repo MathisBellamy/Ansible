@@ -4,3 +4,4 @@
   hosts: all
   roles:
     - roles/users
+    - roles/openssh  # To launch at the end (PermitRootLogin no)

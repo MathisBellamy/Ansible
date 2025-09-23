@@ -1,13 +1,7 @@
 ---
 
-users_groups_list:
-  - name: "server-admins"
-    rights:
-      - (ALL:ALL) ALL
+users_groups_list: "{{ users_groups_list_default | default([])
+                    + users_groups_list_dist | default([]) }}"
 
-users_users_list:
-  - name: "mbellamy"
-    password: "test"
-    groups:
-      - server-admins
-    ssh_key: true
+users_users_list: "{{ users_users_list_default | default([])
+                    + users_users_list_dist | default([]) }}"

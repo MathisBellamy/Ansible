@@ -1,0 +1,19 @@
+---
+
+- name: "OPENSSH - Install packages"
+  ansible.builtin.apt:
+    name: "{{ _openssh_packages }}"
+    update_cache: true
+    allow_downgrade: true
+    state: "present"
+  become: true
+
+- name: "OPENSSH - Put sshd_config template"
+  ansible.builtin.template:
+    src: etc/ssh/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: "root"
+    group: "root"
+    mode: "0o644"
+  notify: RestartSSHD
+  become: true

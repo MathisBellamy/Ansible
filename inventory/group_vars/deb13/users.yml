@@ -1,0 +1,13 @@
+---
+
+users_users_list_dist:
+  - name: "mbellamy"
+    password: "test"
+    groups:
+      - server-admins
+    ssh_key: true
+
+users_groups_list_dist:
+  - name: "server-admins"
+    rights:
+      - (ALL:ALL) ALL
