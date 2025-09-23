@@ -2,12 +2,12 @@
 
 galaxy_info:
   author: Mathis
-  role_name: users
+  role_name: openssh
   namespace: mbellamy
-  description: Create new users
+  description: Openssh configuration
   company: none
   license: MLP2
   galaxy_tags:
-    - users
+    - openssh
   min_ansible_version: '2.10'
 dependencies: []
