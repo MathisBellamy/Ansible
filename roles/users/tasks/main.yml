@@ -4,7 +4,7 @@
   ansible.builtin.group:
     name: "{{ item['name'] }}"
     state: 'present'
-  loop: "{{ users_groups_list }}"
+  loop: "{{ _users_groups_list }}"
   become: true
 
 - name: "USERS - Create groups sudoers file"
@@ -14,8 +14,7 @@
     owner: root
     group: root
     mode: "0o440"
-  loop: "{{ users_groups_list }}"
-  when: item['rights'] is defined and item['rights'] != []
+  loop: "{{ _users_groups_list }}"
   become: true
 
 - name: "USERS - Create users"
@@ -24,7 +23,7 @@
     password: "{{ item['password'] | password_hash('sha512') }}"
     groups: "{{ item['groups'] | join(',') }}"
     shell: "/bin/bash"
-  loop: "{{ users_users_list }}"
+  loop: "{{ _users_users_list }}"
   become: true
 
 - name: "USERS - Ensure .ssh directory exists"
@@ -34,7 +33,7 @@
     group: "{{ item['name'] }}"
     mode: "0o700"
     state: directory
-  loop: "{{ users_users_list }}"
+  loop: "{{ _users_users_list }}"
   become: true
 
 - name: "USERS - Deposit ssh key"
@@ -44,5 +43,5 @@
     key: "{{ lookup('file', './files/ssh_keys/' ~ item['name'] ~ '.pub') }}"
     path: "/home/{{ item['name'] }}/.ssh/authorized_keys"
     manage_dir: false
-  loop: "{{ users_users_list }}"
-  when: item['ssh_key'] is defined and item['ssh_key'] is true
+  loop: "{{ _users_users_list }}"
+  when: item['ssh_key']

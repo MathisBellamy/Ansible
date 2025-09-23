@@ -9,5 +9,4 @@ galaxy_info:
   license: MLP2
   galaxy_tags:
     - users
-  min_ansible_version: '2.10'
 dependencies: []

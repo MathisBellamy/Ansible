@@ -1,69 +1,38 @@
 Role Name
 =========
 
-Role that creates local users and groups. 
-It also creates users' associated sudoers rules.
+A brief description of the role goes here.
 
 Requirements
 ------------
 
-N/A
+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
 
-| Variables&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | Choices/Defaults | Comments&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
-|-----------|------------------|----------|
-| &nbsp;*&nbsp;**vcsi_users_packages[\*].enablerepo**<br/>&nbsp;&nbsp;list | none | Repositories to enable for package element to install. |
-| **users_group_list**<br/>complex (list of dict) | [] | The local groups to create |
-| &nbsp;*&nbsp;**users_group_list[\*].name**<br/>&nbsp;&nbsp;string | none | Group name |
-| &nbsp;*&nbsp;**users_group_list[\*].rights**<br/>&nbsp;&nbsp;list | none | Sudoers rules associated to the groups. See examples below |
-| **users_users_list**<br/>complex (list of dict) | [] | The local users to create |
-| &nbsp;*&nbsp;**users_users_list[\*].name**<br/>&nbsp;&nbsp;string | none | User's name |
-| &nbsp;*&nbsp;**users_users_list[\*].password**<br/>&nbsp;&nbsp;string | none | User's password |
-| &nbsp;*&nbsp;**users_users_list[\*].groups**<br/>&nbsp;&nbsp;list | none | List of groups to which the user belongs |
-| &nbsp;*&nbsp;**users_users_list[\*].ssh_key**<br/>&nbsp;&nbsp;boolean | none | Boolean to specify whether you want to deploy a public ssh_key for the current user (stored in `files/ssh_keys/`) |
-
+A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
 Dependencies
 ------------
 
-N/A
+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
-```yaml
-- name: "Create local users & groups & sudoers rules"
-  hosts: all
-  roles:
-    - roles/users
-```
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-Example group_vars
-----------------
-
-```yaml
-users_users_list:
-  - name: "mbellamy"
-    password: "test"
-    groups:
-      - server-admins
-    ssh_key: true
-
-users_groups_list:
-  - name: "server-admins"
-    rights:
-      - (ALL:ALL) ALL
-
-```
+    - hosts: servers
+      roles:
+         - { role: username.rolename, x: 42 }
 
 License
 -------
 
-N/A
+BSD
 
 Author Information
 ------------------
 
-N/A
+An optional section for the role authors to include contact information, or a website (HTML is not allowed).
