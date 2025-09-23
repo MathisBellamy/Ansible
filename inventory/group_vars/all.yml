@@ -10,3 +10,4 @@ users_users_list:
     password: "test"
     groups:
       - server-admins
+    ssh_key: true
