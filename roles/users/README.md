@@ -22,6 +22,7 @@ Role Variables
 | &nbsp;*&nbsp;**users_users_list[\*].password**<br/>&nbsp;&nbsp;string | none | User's password |
 | &nbsp;*&nbsp;**users_users_list[\*].groups**<br/>&nbsp;&nbsp;list | none | List of groups to which the user belongs |
 | &nbsp;*&nbsp;**users_users_list[\*].ssh_key**<br/>&nbsp;&nbsp;boolean | none | Boolean to specify whether you want to deploy a public ssh_key for the current user (stored in `files/ssh_keys/`) |
+| &nbsp;*&nbsp;**users_users_list[\*].state**<br/>&nbsp;&nbsp;string (Optional) | 'present' | If user is to add or remove |
 
 
 Dependencies
