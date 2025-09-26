@@ -3,7 +3,7 @@
 - name: "USERS - Create groups"
   ansible.builtin.group:
     name: "{{ item['name'] }}"
-    state: 'present'
+    state: "{{ item['state'] | default('present') }}"
   loop: "{{ users_groups_list }}"
   become: true
 
@@ -15,7 +15,7 @@
     group: root
     mode: "0o440"
   loop: "{{ users_groups_list }}"
-  when: item['rights'] is defined and item['rights'] != []
+  when: item['rights'] is defined and item['rights'] != [] and item['state'] | default('present') != 'absent'
   become: true
 
 - name: "USERS - Create users"
@@ -24,6 +24,7 @@
     password: "{{ item['password'] | password_hash('sha512') }}"
     groups: "{{ item['groups'] | join(',') }}"
     shell: "/bin/bash"
+    state: "{{ item['state'] | default('present') }}"
   loop: "{{ users_users_list }}"
   become: true
 
@@ -45,4 +46,4 @@
     path: "/home/{{ item['name'] }}/.ssh/authorized_keys"
     manage_dir: false
   loop: "{{ users_users_list }}"
-  when: item['ssh_key'] is defined and item['ssh_key'] is true
+  when: item['ssh_key'] is defined and item['ssh_key'] is true and item['state'] | default('present') != 'absent'
