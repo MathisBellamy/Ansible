@@ -29,8 +29,10 @@ AuthorizedKeysFile {{ openssh_authorized_key_file }}
 
 AuthorizedPrincipalsFile {{ openssh_authorized_prinicpals_file }}
 
+{% if openssh_authorized_keys_command != 'none' %}
 AuthorizedKeysCommand {{ openssh_authorized_keys_command }}
 AuthorizedKeysCommandUser {{ openssh_authorized_keys_command_user }}
+{% endif %}
 
 HostbasedAuthentication {{ openssh_host_based_authentication }}
 IgnoreUserKnownHosts {{ openssh_ignore_user_known_hosts }}
