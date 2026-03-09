@@ -21,7 +21,7 @@
 - name: "USERS - Create users"
   ansible.builtin.user:
     name: "{{ item['name'] }}"
-    password: "{{ item['password'] | password_hash('sha512') }}"
+    password: "{{ item['password'] | default(omit) | password_hash('sha512') }}"
     groups: "{{ item['groups'] | join(',') }}"
     shell: "/bin/bash"
     state: "{{ item['state'] | default('present') }}"

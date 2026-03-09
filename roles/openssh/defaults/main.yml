@@ -20,7 +20,7 @@ openssh_syslog_facility: AUTH
 openssh_loglevel: INFO
 
 openssh_login_grace_time: 2m
-openssh_permit_root_login: "yes"
+openssh_permit_root_login: "no"
 openssh_strict_modes: "yes"
 openssh_max_auth_tries: 6
 openssh_max_sessions: 10
@@ -94,7 +94,7 @@ openssh_accept_envs:
   - LC_TIME
   - XMODIFIERS
 
-openssh_subsystem: sftp {{ openssh_sftp_server }}
+openssh_subsystem: "sftp /usr/lib/openssh/sftp-server"
 
 # Specifies a file containing public keys of certificate authorities that are
 # trusted to sign user certificates for authentication, or none to not use one.
