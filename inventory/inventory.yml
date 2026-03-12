@@ -3,9 +3,28 @@
 debian:
   children:
     deb13:
-      hosts:
-        10.0.3.152:
-    deb12:
-      hosts:
-        192.168.145.101:
-        192.168.145.102:
+      children:
+        pgsql:
+          hosts:
+            deb13-pgsql1:
+              ansible_host: 10.0.3.2
+            deb13-pgsql2:
+              ansible_host: 10.0.3.37
+            deb13-pgsql3:
+              ansible_host: 10.0.3.163
+        test:
+          hosts:
+            kangaroo.mattzoo.lab:
+              ansible_host: 10.0.3.43
+    #deb13:
+    #  hosts:
+    #    10.0.3.205:
+    #deb12:
+    #  hosts:
+    #    192.168.145.101:
+    #    192.168.145.102:
+
+# Configure VMs/Containers with static IPs so that this inventory is correct
+# homelab:
+#   children:
+#     ...
