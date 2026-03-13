@@ -7,6 +7,15 @@
   loop: "{{ users_groups_list }}"
   become: true
 
+- name: "USERS - Make sure /etc/sudoers.d/ exists"
+  ansible.builtin.file:
+    path: "/etc/sudoers.d"
+    state: "directory"
+    owner: root
+    group: root
+    mode: "0o750"
+  become: true
+
 - name: "USERS - Create groups sudoers file"
   ansible.builtin.template:
     src: 'etc/sudoers.d/sudoers.j2'
