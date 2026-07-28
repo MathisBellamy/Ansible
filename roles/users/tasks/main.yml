@@ -47,12 +47,12 @@
   loop: "{{ users_users_list }}"
   become: true
 
-- name: "USERS - Deposit ssh key"
+- name: "USERS - Put ssh key"
   ansible.posix.authorized_key:
     user: "{{ item['name'] }}"
     state: "present"
-    key: "{{ lookup('file', './files/ssh_keys/' ~ item['name'] ~ '.pub') }}"
+    key: "{{ item['ssh_key'] }}"
     path: "/home/{{ item['name'] }}/.ssh/authorized_keys"
     manage_dir: false
   loop: "{{ users_users_list }}"
-  when: item['ssh_key'] is defined and item['ssh_key'] is true and item['state'] | default('present') != 'absent'
+  when: item['ssh_key'] is defined and item['ssh_key'] != '' is true and item['state'] | default('present') != 'absent'

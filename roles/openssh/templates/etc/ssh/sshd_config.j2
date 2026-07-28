@@ -1,88 +1,95 @@
 {{ ansible_managed | comment }}
 
-Port {{ openssh_port }}
+Port 22
 
-AddressFamily {{ openssh_address_family }}
+AddressFamily any
 
-{% for address in openssh_listen_addresses %}
-ListenAddress {{ address }}
-{% endfor %}
+ListenAddress 0.0.0.0
+ListenAddress ::
 
-{% for hostkey in openssh_host_keys %}
-HostKey {{ hostkey }}
-{% endfor %}
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
 
-RekeyLimit {{ openssh_rekey_limit }}
+RekeyLimit default none
 
-SyslogFacility {{ openssh_syslog_facility }}
-LogLevel {{ openssh_loglevel }}
+SyslogFacility AUTH
+LogLevel INFO
 
-LoginGraceTime {{ openssh_login_grace_time }}
-PermitRootLogin {{ openssh_permit_root_login }}
-StrictModes {{ openssh_strict_modes }}
-MaxAuthTries {{ openssh_max_auth_tries }}
-MaxSessions {{ openssh_max_sessions }}
+LoginGraceTime 2m
+PermitRootLogin no
+StrictModes yes
+MaxAuthTries 6
+MaxSessions 10
 
-PubkeyAuthentication {{ openssh_pub_key_authentication }}
+PubkeyAuthentication yes
 
-AuthorizedKeysFile {{ openssh_authorized_key_file }}
+AuthorizedKeysFile .ssh/authorized_keys
 
-AuthorizedPrincipalsFile {{ openssh_authorized_prinicpals_file }}
+AuthorizedPrincipalsFile none
 
-{% if openssh_authorized_keys_command != 'none' %}
-AuthorizedKeysCommand {{ openssh_authorized_keys_command }}
-AuthorizedKeysCommandUser {{ openssh_authorized_keys_command_user }}
-{% endif %}
+HostbasedAuthentication no
+IgnoreUserKnownHosts no
+IgnoreRhosts yes
 
-HostbasedAuthentication {{ openssh_host_based_authentication }}
-IgnoreUserKnownHosts {{ openssh_ignore_user_known_hosts }}
-IgnoreRhosts {{ openssh_ignore_rhosts }}
+PermitEmptyPasswords no
+PasswordAuthentication yes
 
-PermitEmptyPasswords {{ openssh_permit_empty_passwords }}
-PasswordAuthentication {{ openssh_password_authentication }}
+ChallengeResponseAuthentication no
 
-ChallengeResponseAuthentication {{ openssh_challenge_response_authentication }}
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials no
+GSSAPIStrictAcceptorCheck yes
+GSSAPIKeyExchange no
 
-GSSAPIAuthentication {{ openssh_gssapi_authentication }}
-GSSAPICleanupCredentials {{ openssh_gssapi_cleanup_credentials }}
-GSSAPIStrictAcceptorCheck {{ openssh_gssapi_strict_acceptor_check }}
-GSSAPIKeyExchange {{ openssh_gssapi_key_exchange }}
+UsePAM yes
 
-UsePAM {{ openssh_use_pam }}
+AllowAgentForwarding yes
+AllowTcpForwarding yes
+GatewayPorts no
+X11Forwarding yes
+X11DisplayOffset 10
+X11UseLocalhost yes
+PermitTTY yes
 
-AllowAgentForwarding {{ openssh_allow_agent_forwarding }}
-AllowTcpForwarding  {{ openssh_allow_tcp_forwarding }}
-GatewayPorts {{ openssh_gateway_ports }}
-X11Forwarding {{ openssh_x11_forwarding }}
-X11DisplayOffset {{ openssh_x11_display_offset }}
-X11UseLocalhost {{ openssh_x11_use_localhost }}
-PermitTTY {{ openssh_permit_tty }}
+PrintMotd no
 
-PrintMotd {{ openssh_print_motd }}
+PrintLastLog yes
+TCPKeepAlive yes
+PermitUserEnvironment no
+Compression delayed
+ClientAliveInterval 30
+ClientAliveCountMax 3
+UseDNS no
+PidFile /var/run/sshd.pid
+MaxStartups 10:30:100
+PermitTunnel no
+ChrootDirectory none
+VersionAddendum none
 
-PrintLastLog {{ openssh_print_last_log }}
-TCPKeepAlive {{ openssh_tcp_keep_alive }}
-PermitUserEnvironment {{ openssh_permit_user_environment }}
-Compression {{ openssh_compression }}
-ClientAliveInterval {{ openssh_client_alive_interval }}
-ClientAliveCountMax {{ openssh_client_alive_count_max }}
-UseDNS {{ openssh_use_dns }}
-PidFile {{ openssh_pid_file }}
-MaxStartups {{ openssh_max_startups }}
-PermitTunnel {{ openssh_permit_tunnel }}
-ChrootDirectory {{ openssh_chroot_directory }}
-VersionAddendum {{ openssh_version_addendum }}
+Banner none
 
-Banner {{ openssh_banner }}
+AcceptEnv LANG
+AcceptEnv LANGUAGE
+AcceptEnv LC_ADDRESS
+AcceptEnv LC_ALL
+AcceptEnv LC_COLLATE
+AcceptEnv LC_CTYPE
+AcceptEnv LC_IDENTIFICATION
+AcceptEnv LC_MEASUREMENT
+AcceptEnv LC_MESSAGES
+AcceptEnv LC_MONETARY
+AcceptEnv LC_NAME
+AcceptEnv LC_NUMERIC
+AcceptEnv LC_PAPER
+AcceptEnv LC_TELEPHONE
+AcceptEnv LC_TIME
+AcceptEnv XMODIFIERS
 
-{% for item in openssh_accept_envs %}
-AcceptEnv {{ item }}
-{% endfor %}
-
-Subsystem {{ openssh_subsystem }}
+Subsystem sftp /usr/lib/openssh/sftp-server
 
 {% if openssh_allow_groups is defined %}
 AllowGroups {{ openssh_allow_groups | join(' ') }}
 {% endif %}
 
-TrustedUserCAKeys {{ openssh_trusted_user_ca_keys }}
+TrustedUserCAKeys none

@@ -1,0 +1,8 @@
+
+## Ajout user et token associé
+
+-> privsep permet de séparer les privilèges de l'utilisateur et des tokens associés
+
+pveum user add ansible@pve
+pveum user token add ansible@pve inventory --privsep 1 
+pveum acl modify / --token 'ansible@pve!inventory' --roles PVEAuditor
