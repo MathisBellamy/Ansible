@@ -1,6 +1,0 @@
-# ---
-
-# - name: "Configure kangaroo"
-#   hosts: kangaroo.mattzoo.lab
-#   tasks:
-#     - name: "Configure kangaroo | Upgrade server"

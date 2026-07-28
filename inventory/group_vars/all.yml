@@ -5,3 +5,20 @@ users_groups_list: "{{ users_groups_list_default | default([])
 
 users_users_list: "{{ users_users_list_default | default([])
                     + users_users_list_dist | default([]) }}"
+
+
+users_users_list_default:
+  - name: "mattzoo"
+    groups:
+      - server-admins
+    ssh_key: |
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMm/BvJh/Fh86FzMD98dxPU+zGz4ebmt9spBh7boTKFY usage_perso
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9Vl+HEzKGPVoRYahHkLvpZE6eiSK5JWZ4DKo7iw9hb mbellamy@PC-Mathis-B
+
+users_groups_list_default:
+  - name: "server-admins"
+    rights:
+      - (ALL:ALL) NOPASSWD:ALL
+
+openssh_allow_groups:
+  - server-admins
