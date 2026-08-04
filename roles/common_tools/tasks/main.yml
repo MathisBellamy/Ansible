@@ -1,0 +1,15 @@
+---
+
+- name: "Common tools - Update" 
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+  become: true
+
+- name: "Common tools - Install packages"
+  ansible.builtin.apt:
+    name: "{{ _common_tools_to_install }}"
+    update_cache: true
+    allow_downgrade: true
+    state: "present"
+  become: true

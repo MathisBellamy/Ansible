@@ -1,0 +1,19 @@
+---
+
+- name: "Wireguard | Call prerequisites.yml"
+  ansible.builtin.include_tasks: "prerequisites.yml"
+  loop: "{{ wireguard_peers }}"
+  loop_control:
+    loop_var: peer
+
+- name: "Wireguard | Call install.yml"
+  ansible.builtin.include_tasks: "install.yml"
+
+- name: "Wireguard | Call peer_configuration.yml"
+  ansible.builtin.include_tasks: "peer_configuration.yml"
+  loop: "{{ wireguard_peers }}"
+  loop_control:
+    loop_var: peer
+
+- name: "Wireguard | Call server_configuration.yml"
+  ansible.builtin.include_tasks: "server_configuration.yml"

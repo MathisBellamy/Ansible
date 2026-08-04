@@ -1,0 +1,78 @@
+---
+
+### Cryptographic keys
+
+- name: "server_configuration.yml | Check if keys already exists"
+  ansible.builtin.stat:
+    path: "{{ wireguard_conf_path }}/server.key"
+  register: _wireguard_server_priv_key_stat
+  become: true
+
+- name: "server_configuration.yml | Generate key pair if not exists"
+  when: not _wireguard_server_priv_key_stat['stat']['exists']
+  ansible.builtin.shell: "wg genkey | tee server.key | wg pubkey > server.pub"
+  args:
+    chdir: "{{ wireguard_conf_path }}"
+  become: true
+
+- name: "server_configuration.yml | Get private key content"
+  slurp:
+    src: "{{ wireguard_conf_path }}/server.key"
+  register: _wireguard_server_priv_key_slurp
+  become: true
+
+- name: "server_configuration.yml | Get public key content"
+  slurp:
+    src: "{{ wireguard_conf_path }}/server.pub"
+  register: _wireguard_server_pub_key_slurp
+  become: true
+
+- name: "server_configuration.yml | Set facts"
+  set_fact:
+    _wireguard_server_priv_key: "{{ _wireguard_server_priv_key_slurp.content | b64decode }}"
+    _wireguard_server_pub_key: "{{ _wireguard_server_pub_key_slurp.content | b64decode }}"
+  become: true
+
+- name: "server_configuration.yml | Make sure keys have the correct permissions"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: '0600'
+  loop:
+    - "{{ wireguard_conf_path }}/server.key"
+    - "{{ wireguard_conf_path }}/server.pub"
+  become: true
+
+### Configuration
+
+- name: "server_configuration.yml | Deploy configuration"
+  ansible.builtin.template:
+    src: "etc/wireguard/wg.conf.j2"
+    dest: "/etc/wireguard/{{ wireguard_interface }}.conf"
+    owner: root
+    group: root
+    mode: '0600'
+  become: true
+  notify:
+    - RestartWireguard
+
+### IP Forwarding
+
+- name: "server_configuration.yml | Enable IP Forwarding"
+  ansible.posix.sysctl:
+    name: "net.ipv4.ip_forward"
+    value: "1"
+    state: present
+    sysctl_file: /etc/sysctl.d/99-wireguard.conf
+    reload: true
+  become: true
+
+### Start service
+
+- name: "server_configuration.yml | Make sure interface is up and running"
+  ansible.builtin.shell: "wg-quick up {{ wireguard_interface }}"
+  register: _wireguard_wg_quick_up
+  failed_when: "'already exists' not in _wireguard_wg_quick_up['stderr']"
+  changed_when: "_wireguard_wg_quick_up['rc'] == 0"
+  become: true

@@ -1,0 +1,7 @@
+---
+
+wireguard_port: "51820"
+wireguard_interface: "wg0"
+wireguard_conf_path: "/etc/wireguard"
+wireguard_tunnel_server_addresses: []
+wireguard_peers: []
