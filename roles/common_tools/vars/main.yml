@@ -1,0 +1,5 @@
+---
+
+_common_tools_to_install:
+  - sudo
+  - vim

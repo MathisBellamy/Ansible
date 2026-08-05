@@ -15,5 +15,6 @@ token_secret: !vault |
 validate_certs: false
 want_facts: true
 
+want_proxmox_nodes_ansible_host: true
 compose:
-  ansible_host: proxmox_hostname ~ '.mattzoo.lab' 
+  ansible_host: proxmox_net0["ip"].split('/')[0]

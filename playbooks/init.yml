@@ -3,5 +3,6 @@
 - name: "Init the VM"
   hosts: all
   roles:
-    - roles/users
-    - roles/openssh  # To launch at the end (PermitRootLogin no)
+    - common_tools
+    - users
+    - openssh  # To launch at the end (PermitRootLogin no)

@@ -1,0 +1,18 @@
+{{ ansible_managed | comment }}
+
+[Interface]
+# {{ inventory_hostname }}
+Address = {{ wireguard_tunnel_server_addresses | join(',') }}
+ListenPort = {{ wireguard_port }}
+PrivateKey = {{ _wireguard_server_priv_key | trim }}
+PostUp = nft add table inet wg; nft add chain inet wg post '{ type nat hook postrouting priority srcnat ; }'; nft add rule inet wg post oifname "eth0" masquerade
+PostDown = nft delete table inet wg
+
+{% for peer in wireguard_peers %}
+[Peer]
+# {{ peer['name'] }}
+PublicKey = {{ peer['pub_key'] }}
+PresharedKey = {{ _wireguard_shared_keys_list[peer['name']] | trim }}
+AllowedIPs = {{ peer['allowed_ips'] | join(',') }}
+
+{% endfor %}
