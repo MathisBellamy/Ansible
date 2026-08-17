@@ -1,0 +1,7 @@
+---
+
+- name: "Deploy vaultwarden"
+  gather_facts: true
+  hosts: vaultwarden
+  roles:
+    - docker
