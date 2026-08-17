@@ -2,7 +2,7 @@
 
 galaxy_info:
   author: Mathis
-  role_name: wireguard
+  role_name: docker
   namespace: mbellamy
   description: To install docker
   company: none
