@@ -1,0 +1,55 @@
+---
+
+- name: "Docker | Get APT repo GPG Key"
+  ansible.builtin.get_url:
+    url: 'https://download.docker.com/linux/debian/gpg'
+    dest: '/etc/apt/keyrings/docker.asc'
+    mode: '0644'
+    validate_certs: false
+  become: true
+
+- name: "Docker | Get server architecture"
+  ansible.builtin.command: 'dpkg --print-architecture'
+  register: _docker_architecture
+  changed_when: _docker_architecture['rc'] != 0
+  become: true
+
+- name: "Docker | Add apt repository"
+  ansible.builtin.deb822_repository:
+    name: 'docker'
+    types: 'deb'
+    uris: 'https://download.docker.com/linux/debian'
+    suites: "{{ ansible_facts['distribution_release'] }}"
+    components: stable
+    architectures: "{{ _docker_architecture['stdout'] }}"
+    install_python_debian: true
+    signed_by: '/etc/apt/keyrings/docker.asc'
+  become: true
+
+- name: "Docker | Install docker packages"
+  ansible.builtin.apt:
+    name:
+      - docker-ce 
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    update_cache: true
+  become: true
+
+- name: "Docker | Make sure docker runs"
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: 'started'
+    enabled: true
+    daemon_reload: true
+  become: true
+  loop:
+    - 'docker'
+    - 'containerd'
+
+- name: "Docker | Make sure docker group exists"
+  ansible.builtin.group:
+    name: docker
+    state: present
+  become: true

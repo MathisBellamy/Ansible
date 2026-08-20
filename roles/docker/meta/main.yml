@@ -1,0 +1,13 @@
+---
+
+galaxy_info:
+  author: Mathis
+  role_name: docker
+  namespace: mbellamy
+  description: To install docker
+  company: none
+  license: MLP2
+  galaxy_tags:
+    - docker
+  min_ansible_version: '2.10'
+dependencies: []
