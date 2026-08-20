@@ -1,0 +1,4 @@
+---
+
+caddy_apps: []
+caddy_use_local_https: true

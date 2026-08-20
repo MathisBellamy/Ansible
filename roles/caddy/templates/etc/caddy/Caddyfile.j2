@@ -1,0 +1,11 @@
+{% if caddy_use_local_https | bool is sameas true %}
+{
+    local_certs
+}
+{% endif %}
+
+{% for app in caddy_apps %}
+{{ app['name'] }} {
+    reverse_proxy {{ app['proxy_to'] }}
+}
+{% endfor %}

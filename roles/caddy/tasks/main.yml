@@ -1,0 +1,41 @@
+---
+
+- name: "Add caddy user in sudoers to be able to add root CA in truststore if needed"
+  community.general.sudoers:
+    name: caddy-sudo
+    state: present
+    user: caddy
+    commands: ALL
+    nopassword: true
+  become: true
+  when: caddy_use_local_https | bool is sameas true
+
+- name: "Caddy | Install caddy package"
+  ansible.builtin.apt:
+    name: 'caddy'
+  become: true
+
+- name: "Caddy | Deploy Caddyfile"
+  ansible.builtin.template:
+    src: 'etc/caddy/Caddyfile.j2'
+    dest: "/etc/caddy/Caddyfile"
+    owner: 'caddy'
+    group: 'caddy'
+    mode: '0640'
+  become: true
+  notify:
+    - CaddyRestart
+
+- name: "Caddy | Make sure Caddy is running"
+  ansible.builtin.systemd_service:
+    name: 'caddy'
+    state: 'started'
+    enabled: 'true'
+  become: true
+
+- name: "Remove caddy user from sudoers"
+  community.general.sudoers:
+    name: caddy-sudo
+    state: absent
+  become: true
+  when: caddy_use_local_https | bool is sameas true
