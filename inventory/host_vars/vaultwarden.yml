@@ -1,0 +1,6 @@
+---
+
+vaultwarden_in_docker: true
+vaultwarden_domain_name: 'vault.mattzoo.lab'
+vaultwarden_port: '11000'
+vaultwarden_version: '1.36.0'

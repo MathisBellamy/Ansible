@@ -1,0 +1,5 @@
+---
+
+caddy_apps:
+  - name: vault.mattzoo.lab
+    proxy_to: '172.19.0.2:11000'
