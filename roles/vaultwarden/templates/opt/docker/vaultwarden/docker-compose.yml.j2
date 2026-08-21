@@ -1,0 +1,15 @@
+name: vaultwarden
+services:
+  vaultwarden:
+    image: vaultwarden/server:{{ vaultwarden_version }}@sha256:d626d04934cd1192ad8ced1adb975099fca78cec33ab467d2d3c923cde7f3b0c
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      DOMAIN: "https://{{ vaultwarden_domain_name }}"
+      SIGNUPS_ALLOWED: "{{ vaultwarden_signup_allowed }}"
+      LOG_FILE: "/data/vaultwarden.log"
+      ADMIN_TOKEN: "{{ vaultwarden_admin_token }}"
+    volumes:
+      - ./vw-data:/data
+    ports:
+      - "{{ vaultwarden_port }}"

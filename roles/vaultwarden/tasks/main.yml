@@ -1,0 +1,5 @@
+---
+
+- name: "Vaultwarden | Deploy vaultwarden in docker"
+  ansible.builtin.include_tasks: "vaultwarden_in_docker.yml"
+  when: vaultwarden_in_docker is sameas true

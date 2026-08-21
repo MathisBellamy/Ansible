@@ -1,0 +1,29 @@
+---
+
+- name: 'vaultwarden_in_docker.yml | Make sure vaultwarden directory exists'
+  ansible.builtin.file:
+    path: "{{ _vaultwarden_docker_directory }}"
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+  become: true
+
+- name: "vaultwarden_in_docker.yml | Deploy docker-compose.yml"
+  ansible.builtin.template:
+    src: 'opt/docker/vaultwarden/docker-compose.yml.j2'
+    dest: "{{ _vaultwarden_docker_directory }}/docker-compose.yml"
+    owner: 'root'
+    group: 'root'
+    mode: '0640'
+  become: true
+
+- name: "vaultwarden_in_docker.yml | docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: "{{ _vaultwarden_docker_directory }}"
+    wait: true
+  register: _vaultwarden_docker_compose
+  become: true
+
+- name: Show results
+  ansible.builtin.debug:
+    var: _vaultwarden_docker_compose

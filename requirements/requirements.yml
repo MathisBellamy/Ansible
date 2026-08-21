@@ -4,3 +4,4 @@ collections:
   - ansible.posix
   - community.general
   - community.proxmox
+  - community.docker

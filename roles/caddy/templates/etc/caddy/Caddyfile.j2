@@ -1,0 +1,19 @@
+{% if caddy_use_local_https | bool is sameas true %}
+{
+    local_certs
+}
+{% endif %}
+
+{% for app in caddy_apps %}
+{{ app['name'] }} {
+    reverse_proxy {{ app['proxy_to'] }}
+    
+    log {
+        output file /var/log/caddy/{{ app['name'] }}.log {
+            roll_size 5MB
+            roll_keep 2
+            roll_keep_days 7
+        }
+    }
+}
+{% endfor %}
