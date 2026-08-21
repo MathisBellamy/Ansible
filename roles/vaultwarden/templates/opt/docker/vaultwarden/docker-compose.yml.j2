@@ -6,8 +6,10 @@ services:
     restart: unless-stopped
     environment:
       DOMAIN: "https://{{ vaultwarden_domain_name }}"
-      SIGNUPS_ALLOWED: "true"
+      SIGNUPS_ALLOWED: "{{ vaultwarden_signup_allowed }}"
+      LOG_FILE: "/data/vaultwarden.log"
+      ADMIN_TOKEN: "{{ vaultwarden_admin_token }}"
     volumes:
       - ./vw-data:/data
-    expose:
+    ports:
       - "{{ vaultwarden_port }}"
